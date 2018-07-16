@@ -1,15 +1,18 @@
 package com.ssheetz.myweather;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ssheetz.myweather.dummy.DummyContent;
+import com.ssheetz.myweather.model.Cities;
+import com.ssheetz.myweather.model.City;
+import com.ssheetz.myweather.model.Forecast;
+import com.ssheetz.myweather.weather.WeatherData;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -27,7 +30,9 @@ public class ItemDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private City mItem;
+
+    private final WeatherData weatherData = WeatherData.getInstance();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,12 +49,12 @@ public class ItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = Cities.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.getLabel());
             }
         }
     }
@@ -61,7 +66,12 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
+            Forecast forecast = weatherData.getForecast(mItem.getLocation());
+            if (forecast == null) {
+                ((TextView) rootView.findViewById(R.id.item_detail)).setText(getString(R.string.forecast_unknown));
+            } else {
+                ((TextView) rootView.findViewById(R.id.item_detail)).setText(String.format("temp: %f, humid: %f, rain: %f, windsp: %f, winddir: %f", forecast.getTemperature(), forecast.getHumidity(), forecast.getRainChance(), forecast.getWindSpeed(), forecast.getWindDirection()));
+            }
         }
 
         return rootView;
