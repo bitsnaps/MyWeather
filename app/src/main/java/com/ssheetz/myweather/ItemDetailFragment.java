@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.ssheetz.myweather.model.Cities;
 import com.ssheetz.myweather.model.City;
 import com.ssheetz.myweather.model.Forecast;
-import com.ssheetz.myweather.weather.WeatherData;
+import com.ssheetz.myweather.weather.WeatherManager;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -32,7 +32,7 @@ public class ItemDetailFragment extends Fragment {
      */
     private City mItem;
 
-    private final WeatherData weatherData = WeatherData.getInstance();
+    private final WeatherManager weatherManager = WeatherManager.getInstance(null);
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,11 +66,11 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            Forecast forecast = weatherData.getForecast(mItem.getLocation());
+            Forecast forecast = weatherManager.getTodaysForecast(mItem.getLocation());
             if (forecast == null) {
                 ((TextView) rootView.findViewById(R.id.item_detail)).setText(getString(R.string.forecast_unknown));
             } else {
-                ((TextView) rootView.findViewById(R.id.item_detail)).setText(String.format("temp: %f, humid: %f, rain: %f, windsp: %f, winddir: %f", forecast.getTemperature(), forecast.getHumidity(), forecast.getRainChance(), forecast.getWindSpeed(), forecast.getWindDirection()));
+                ((TextView) rootView.findViewById(R.id.item_detail)).setText(String.format("temp: %f, humid: %f, desc: %s, windsp: %f, winddir: %f", forecast.getTemperature(), forecast.getHumidity(), forecast.getDescription(), forecast.getWindSpeed(), forecast.getWindDirection()));
             }
         }
 

@@ -2,6 +2,8 @@ package com.ssheetz.myweather.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import static com.ssheetz.myweather.Preconditions.checkNotNull;
+
 
 /**
  * A single city in the user's collection
@@ -18,10 +20,10 @@ public class City {
      * @param label  The city's label
      * @param location  The geographic location
      */
-    public City(String id, String label, LatLng location) {
-        this.id = id;
-        this.label = label;
-        this.location = location;
+    City(String id, String label, LatLng location) {
+        this.id = checkNotNull(id, "id cannot be null");
+        this.label = checkNotNull(label, "label cannot be null");
+        this.location = checkNotNull(location, "location cannot be null");
     }
 
     /**

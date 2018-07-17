@@ -20,21 +20,15 @@ public class Cities {
      */
     public static final Map<String, City> ITEM_MAP = new HashMap<String, City>();
 
-    private static final int COUNT = 25;
 
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
+        addItem(new City("1", "Philadelphia", new LatLng(39.95, -75.2)));
+        addItem(new City("2", "San Antonio", new LatLng(29.42, -98.55)));
+        addItem(new City("3", "Petrofka", new LatLng(52.66, -106.9)));
     }
 
     private static void addItem(City item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.getId(), item);
-    }
-
-    private static City createDummyItem(int position) {
-        return new City(String.valueOf(position), "City name " + position, new LatLng(1.0, 1.0));
     }
 }

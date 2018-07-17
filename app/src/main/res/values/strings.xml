@@ -5,4 +5,5 @@
     <string name="action_help">Help</string>
     <string name="action_add">Add City</string>
     <string name="forecast_unknown">Forecast Unknown</string>
+    <string name="open_weather_map_app_id">c6e381d8c7ff98f0fee43775817cf6ad</string>
 </resources>

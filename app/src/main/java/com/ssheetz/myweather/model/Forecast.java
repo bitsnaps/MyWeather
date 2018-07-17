@@ -1,29 +1,31 @@
 package com.ssheetz.myweather.model;
 
+import static com.ssheetz.myweather.Preconditions.checkNotNull;
+
 /**
  * Represents the details of a weather forecast at one location, at one point in time.
  */
 public class Forecast {
 
-    private float temperature;
-    private float humidity;
-    private float rainChance;
-    private float windSpeed;
-    private float windDirection;
+    private final double temperature;
+    private final double humidity;
+    private final String description;
+    private final double windSpeed;
+    private final double windDirection;
 
     /**
      * Constructs the Forecast object.
      *
      * @param temperature  Temperature in Fahrenheit
      * @param humidity  Humidity percentage
-     * @param rainChance  Chance of rain
+     * @param description  Text description
      * @param windSpeed  Wind speed in mph
      * @param windDirection  Wind direction in degrees CW from north
      */
-    public Forecast(float temperature, float humidity, float rainChance, float windSpeed, float windDirection) {
+    public Forecast(double temperature, double humidity, String description, double windSpeed, double windDirection) {
         this.temperature = temperature;
         this.humidity = humidity;
-        this.rainChance = rainChance;
+        this.description = checkNotNull(description, "description cannot be null");
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
     }
@@ -31,35 +33,35 @@ public class Forecast {
     /**
      * @return  Temperature in Fahrenheit
      */
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
     /**
      * @return  Humidity percentage
      */
-    public float getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
     /**
-     * @return  Chance of rain
+     * @return  Text description
      */
-    public float getRainChance() {
-        return rainChance;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * @return  Wind speed in mph
      */
-    public float getWindSpeed() {
+    public double getWindSpeed() {
         return windSpeed;
     }
 
     /**
      * @return  Wind direction in degrees CW from north
      */
-    public float getWindDirection() {
+    public double getWindDirection() {
         return windDirection;
     }
 }

@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ssheetz.myweather.model.Cities;
-import com.ssheetz.myweather.weather.WeatherData;
+import com.ssheetz.myweather.weather.WeatherManager;
 
 /**
  * An activity representing a list of Items. This activity
@@ -30,13 +30,16 @@ public class ItemListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
-    private final WeatherData weatherData = WeatherData.getInstance();
+    private WeatherManager weatherManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        weatherManager = WeatherManager.getInstance(this);
+        weatherManager.refreshTodaysForecast(Cities.ITEMS);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
