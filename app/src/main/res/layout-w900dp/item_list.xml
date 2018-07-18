@@ -28,7 +28,8 @@
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.ssheetz.myweather.ItemListActivity"
-        tools:listitem="@layout/item_list_content" />
+        tools:listitem="@layout/item_list_content"
+        android:layout_weight="1" />
 
     <FrameLayout
         android:id="@+id/item_detail_container"

@@ -27,7 +27,7 @@ import java.util.Collections;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class ItemListActivity extends AppCompatActivity implements OnCityCreatedListener {
+public class ItemListActivity extends AppCompatActivity implements OnCityChangeListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -83,6 +83,12 @@ public class ItemListActivity extends AppCompatActivity implements OnCityCreated
     public void onCityCreated(String label, LatLng location) {
         City city = cities.createCity(label, location);
         weatherManager.refreshTodaysForecast(Collections.singletonList(city));
+        listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCityDeleted(String id) {
+        cities.removeCity(id);
         listAdapter.notifyDataSetChanged();
     }
 

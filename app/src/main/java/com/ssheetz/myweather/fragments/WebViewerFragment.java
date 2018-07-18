@@ -7,8 +7,6 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +21,9 @@ import android.widget.TextView;
 import com.ssheetz.myweather.R;
 
 
+/**
+ * Shows the user a dialog box with a web view in it, which will load the specified URL.
+ */
 public class WebViewerFragment extends DialogFragment  {
 
     public WebViewerFragment() {
@@ -96,13 +97,8 @@ public class WebViewerFragment extends DialogFragment  {
         }
         window.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
         WindowManager.LayoutParams params = window.getAttributes();
-        params.height = screenHeight - dpToPx(80);
-        params.width = screenWidth - dpToPx(80);
+        params.height = screenHeight - FragmentUtils.dpToPx(getActivity(), 80);
+        params.width = screenWidth - FragmentUtils.dpToPx(getActivity(),80);
         window.setAttributes(params);
-    }
-
-    private int dpToPx(float valueInDp) {
-        DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 }

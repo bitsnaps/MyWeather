@@ -2,6 +2,7 @@ package com.ssheetz.myweather.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.ssheetz.myweather.model.Cities;
 import com.ssheetz.myweather.model.City;
 import com.ssheetz.myweather.model.Forecast;
 import com.ssheetz.myweather.weather.WeatherManager;
+
+import java.util.Locale;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -32,7 +35,7 @@ public class ItemDetailFragment extends Fragment {
 
     private final WeatherManager weatherManager = WeatherManager.getInstance(null);
     private final Cities cities = Cities.getInstance(null);
-    private City mItem;
+    private City cityItem;
 
 
     /**
@@ -46,30 +49,44 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_ITEM_ID)) {
             // Load the content specified by the fragment arguments.
-            mItem = cities.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getLabel());
-            }
+            cityItem = cities.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Activity activity = this.getActivity();
+        if (activity != null) {
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(cityItem.getLabel());
+            }
+        }
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            Forecast forecast = weatherManager.getTodaysForecast(mItem.getLocation());
+        View forecastView = rootView.findViewById(R.id.forecast_view);
+        View noForecast = rootView.findViewById(R.id.no_data);
+
+        // Show the content
+        if (cityItem != null) {
+            Forecast forecast = weatherManager.getTodaysForecast(cityItem.getLocation());
             if (forecast == null) {
-                ((TextView) rootView.findViewById(R.id.item_detail)).setText(getString(R.string.forecast_unknown));
+                forecastView.setVisibility(View.GONE);
+                noForecast.setVisibility(View.VISIBLE);
             } else {
-                ((TextView) rootView.findViewById(R.id.item_detail)).setText(String.format("temp: %f, humid: %f, desc: %s, windsp: %f, winddir: %f", forecast.getTemperature(), forecast.getHumidity(), forecast.getDescription(), forecast.getWindSpeed(), forecast.getWindDirection()));
+                noForecast.setVisibility(View.GONE);
+                forecastView.setVisibility(View.VISIBLE);
+                ((TextView)rootView.findViewById(R.id.description)).setText(forecast.getDescription());
+                String temperatureStr = String.format(Locale.getDefault(), "%.1f \u00B0", forecast.getTemperature());
+                ((TextView)rootView.findViewById(R.id.temperature)).setText(temperatureStr);
+                String humidityStr = String.format(Locale.getDefault(), "%.0f %% %s", forecast.getHumidity(), getString(R.string.humidity));
+                ((TextView)rootView.findViewById(R.id.humidity)).setText(humidityStr);
+                String windStr = String.format(Locale.getDefault(), "%s %.0f \u00B0 at %.0f mph", getString(R.string.wind), forecast.getWindDirection(), forecast.getWindSpeed());
+                ((TextView)rootView.findViewById(R.id.wind)).setText(windStr);
             }
         }
 

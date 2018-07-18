@@ -10,8 +10,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,13 +27,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ssheetz.myweather.OnCityCreatedListener;
+import com.ssheetz.myweather.OnCityChangeListener;
 import com.ssheetz.myweather.R;
 
 import java.io.IOException;
 import java.util.List;
 
 
+/**
+ * Shows the user a dialog box where they can pick a single point on the map and choose
+ * a city name.
+ */
 public class AddCityFragment extends DialogFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private static final String KEY_LATITUDE = "latitude";
@@ -173,8 +175,8 @@ public class AddCityFragment extends DialogFragment implements OnMapReadyCallbac
             return false;
         }
         Activity activity = getActivity();
-        if (activity instanceof OnCityCreatedListener) {
-            ((OnCityCreatedListener)activity).onCityCreated(label, location);
+        if (activity instanceof OnCityChangeListener) {
+            ((OnCityChangeListener)activity).onCityCreated(label, location);
             return true;
         }
         return false;
@@ -192,14 +194,9 @@ public class AddCityFragment extends DialogFragment implements OnMapReadyCallbac
         }
         window.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
         WindowManager.LayoutParams params = window.getAttributes();
-        params.height = screenHeight - dpToPx(60);
-        params.width = screenWidth - dpToPx(60);
+        params.height = screenHeight - FragmentUtils.dpToPx(getActivity(), 60);
+        params.width = screenWidth - FragmentUtils.dpToPx(getActivity(),60);
         window.setAttributes(params);
-    }
-
-    private int dpToPx(float valueInDp) {
-        DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
     @Override
