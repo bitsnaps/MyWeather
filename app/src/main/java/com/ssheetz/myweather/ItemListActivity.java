@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.ssheetz.myweather.fragments.AddCityFragment;
+import com.ssheetz.myweather.fragments.SettingsFragment;
 import com.ssheetz.myweather.fragments.WebViewerFragment;
 import com.ssheetz.myweather.model.Cities;
 import com.ssheetz.myweather.model.City;
@@ -93,6 +94,12 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
     }
 
     @Override
+    public void onAllCitiesDeleted() {
+        cities.removeAll();
+        listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onStop() {
         cities.saveCities(this);
         super.onStop();
@@ -118,6 +125,7 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
                 showAdd();
                 return true;
             case R.id.action_settings:
+                showSettings();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,5 +142,10 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
     private void showAdd() {
         AddCityFragment fragment = AddCityFragment.newInstance();
         fragment.show(getFragmentManager(), "AddDialog");
+    }
+
+    private void showSettings() {
+        SettingsFragment fragment = SettingsFragment.newInstance();
+        fragment.show(getFragmentManager(), "SettingsDialog");
     }
 }

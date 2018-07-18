@@ -86,6 +86,14 @@ public class Cities {
     }
 
     /**
+     * Removes ALL cities from the collection.
+     */
+    public void removeAll() {
+        cities.clear();
+        cityIdMap.clear();
+    }
+
+    /**
      * @return A copy of the list of cities, in alphabetical order.
      */
     public List<City> getCities() {

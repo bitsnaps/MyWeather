@@ -14,6 +14,8 @@
     <string name="todays_forecast">Today\'s Forecast:</string>
     <string name="humidity">humidity</string>
     <string name="wind">wind</string>
+    <string name="button_delete_all">Delete All</string>
+    <string name="prompt_delete_all">Are you sure you want to delete all cities?</string>
 
     <!-- API key for OpenWeatherMap.org -->
     <string name="open_weather_map_app_id" translatable="false">c6e381d8c7ff98f0fee43775817cf6ad</string>

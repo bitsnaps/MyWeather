@@ -17,4 +17,9 @@ public interface OnCityChangeListener {
      * @param id  The city's unique identifier
      */
     void onCityDeleted(String id);
+
+    /**
+     * The user has opted to delete ALL cities.
+     */
+    void onAllCitiesDeleted();
 }
