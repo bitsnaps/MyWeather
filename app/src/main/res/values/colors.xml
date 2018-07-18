@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="medium_brown">#FFC0A456</color>
+    <color name="light_brown">#FFFBE5CC</color>
+    <color name="table_cell_bkg">#FFFFFCF5</color>
+    <color name="nav_bar_bkg">#FFFFF5E1</color>
 </resources>

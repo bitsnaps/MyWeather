@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ssheetz.myweather">
-
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +28,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ssheetz.myweather.ItemListActivity" />
         </activity>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCYl-7RSEaSIj_mLaUta4KzFgCo29lvVco"/>
+
     </application>
 
 </manifest>

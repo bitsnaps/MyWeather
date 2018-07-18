@@ -5,5 +5,10 @@
     <string name="action_help">Help</string>
     <string name="action_add">Add City</string>
     <string name="forecast_unknown">Forecast Unknown</string>
-    <string name="open_weather_map_app_id">c6e381d8c7ff98f0fee43775817cf6ad</string>
+    <string name="button_done">Done</string>
+    <string name="button_save">Save</string>
+    <string name="hint_city_name">City name</string>
+
+    <!-- API key for OpenWeatherMap.org -->
+    <string name="open_weather_map_app_id" translatable="false">c6e381d8c7ff98f0fee43775817cf6ad</string>
 </resources>

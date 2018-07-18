@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill"
+    android:orientation="vertical"
+    android:minWidth="200dp"
+    android:minHeight="2000dp"
+    android:background="@drawable/bkg_rounded_dialog"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_title_height"
+        android:background="@drawable/bkg_rounded_dialog_title"
+        >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            style="@style/DialogTitleStyle"
+            />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|right"
+            style="@style/DialogButtonStyle"
+            android:text="@string/button_done" />
+
+    </RelativeLayout>
+
+    <View android:background="#FFCCCCCC"
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"/>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/webview"
+        android:layout_marginBottom="@dimen/rounded_dialog_radius" />
+
+
+</LinearLayout>

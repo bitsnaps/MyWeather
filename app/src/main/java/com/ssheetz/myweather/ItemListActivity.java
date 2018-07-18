@@ -3,7 +3,6 @@ package com.ssheetz.myweather;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.ssheetz.myweather.fragments.AddCityFragment;
+import com.ssheetz.myweather.fragments.WebViewerFragment;
 import com.ssheetz.myweather.model.Cities;
+import com.ssheetz.myweather.model.City;
 import com.ssheetz.myweather.weather.WeatherManager;
+
+import java.util.Collections;
 
 /**
  * An activity representing a list of Items. This activity
@@ -22,7 +27,7 @@ import com.ssheetz.myweather.weather.WeatherManager;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class ItemListActivity extends AppCompatActivity {
+public class ItemListActivity extends AppCompatActivity implements OnCityCreatedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -30,7 +35,9 @@ public class ItemListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    private Cities cities;
     private WeatherManager weatherManager;
+    private RecyclerView.Adapter<CityListAdapter.ViewHolder> listAdapter;
 
 
     @Override
@@ -38,19 +45,19 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        cities = Cities.getInstance(this);
         weatherManager = WeatherManager.getInstance(this);
-        weatherManager.refreshTodaysForecast(Cities.ITEMS);
+        weatherManager.refreshTodaysForecast(cities.getCities());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showAdd();
             }
         });
 
@@ -68,7 +75,15 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new CityListAdapter(this, Cities.ITEMS, mTwoPane));
+        listAdapter = new CityListAdapter(this, cities, mTwoPane);
+        recyclerView.setAdapter(listAdapter);
+    }
+
+    @Override
+    public void onCityCreated(String label, LatLng location) {
+        City city = cities.createCity(label, location);
+        weatherManager.refreshTodaysForecast(Collections.singletonList(city));
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -84,10 +99,28 @@ public class ItemListActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()) {
+            case R.id.action_help:
+                showHelp();
+                return true;
+            case R.id.action_add:
+                showAdd();
+                return true;
             case R.id.action_settings:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showHelp() {
+        String url = "file:///android_asset/html/help.html";
+        String title = getString(R.string.action_help);
+        WebViewerFragment fragment = WebViewerFragment.newInstance(url, title);
+        fragment.show(getFragmentManager(), "HelpDialog");
+    }
+
+    private void showAdd() {
+        AddCityFragment fragment = AddCityFragment.newInstance();
+        fragment.show(getFragmentManager(), "AddDialog");
     }
 }

@@ -3,21 +3,22 @@ package com.ssheetz.myweather;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ssheetz.myweather.fragments.ItemDetailFragment;
+import com.ssheetz.myweather.model.Cities;
 import com.ssheetz.myweather.model.City;
-
-import java.util.List;
 
 public class CityListAdapter
         extends RecyclerView.Adapter<CityListAdapter.ViewHolder> {
 
     private final ItemListActivity mParentActivity;
-    private final List<City> mValues;
+    private final Cities cities;
     private final boolean mTwoPane;
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -42,9 +43,9 @@ public class CityListAdapter
     };
 
     CityListAdapter(ItemListActivity parent,
-                    List<City> items,
+                    Cities cities,
                     boolean twoPane) {
-        mValues = items;
+        this.cities = cities;
         mParentActivity = parent;
         mTwoPane = twoPane;
     }
@@ -58,16 +59,17 @@ public class CityListAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mIdView.setText(mValues.get(position).getId());
-        holder.mContentView.setText(mValues.get(position).getLabel());
+        City city = cities.getCities().get(position);
+        //holder.mIdView.setText(city.getId());
+        holder.mContentView.setText(city.getLabel());
 
-        holder.itemView.setTag(mValues.get(position));
+        holder.itemView.setTag(city);
         holder.itemView.setOnClickListener(mOnClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return cities.getCities().size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,8 +78,8 @@ public class CityListAdapter
 
         ViewHolder(View view) {
             super(view);
-            mIdView = (TextView) view.findViewById(R.id.id_text);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.id_text);
+            mContentView = view.findViewById(R.id.content);
         }
     }
 }
