@@ -93,6 +93,12 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
     }
 
     @Override
+    public void onStop() {
+        cities.saveCities(this);
+        super.onStop();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
