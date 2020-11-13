@@ -6,6 +6,7 @@
     <string name="action_add">Add City</string>
     <string name="forecast_unknown">Forecast Unknown</string>
     <string name="button_done">Done</string>
+    <string name="button_close">Close</string>
     <string name="button_save">Save</string>
     <string name="hint_city_name">City name</string>
     <string name="button_delete">Delete</string>

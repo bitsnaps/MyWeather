@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.ssheetz.myweather.fragments.AddCityFragment;
@@ -18,7 +19,10 @@ import com.ssheetz.myweather.model.Cities;
 import com.ssheetz.myweather.model.City;
 import com.ssheetz.myweather.weather.WeatherManager;
 
+import java.io.IOException;
 import java.util.Collections;
+
+import okhttp3.OkHttpClient;
 
 /**
  * An activity representing a list of Items. This activity
@@ -73,6 +77,11 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+//        String url = "http://192.168.1.44/yii2rest/web/post";
+//        RequestExample req = new RequestExample(new OkHttpClient());
+//        req.queryForPosts(url);
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -133,10 +142,21 @@ public class ItemListActivity extends AppCompatActivity implements OnCityChangeL
     }
 
     private void showHelp() {
-        String url = "file:///android_asset/html/help.html";
-        String title = getString(R.string.action_help);
-        WebViewerFragment fragment = WebViewerFragment.newInstance(url, title);
-        fragment.show(getFragmentManager(), "HelpDialog");
+        try {
+            String url = "file:///android_asset/html/help.html";
+            String title = getString(R.string.action_help);
+            WebViewerFragment fragment = WebViewerFragment.newInstance(url, title);
+            fragment.show(getFragmentManager(), "HelpDialog");
+        }
+        catch(Exception ex) {
+            String msg = "";
+            if (ex.getClass().getSimpleName().contains("IOException")){
+                msg = "Help file not found!";
+            } else {
+                msg = "Error! Cannot show help page.";
+            }
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showAdd() {

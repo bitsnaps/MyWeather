@@ -53,13 +53,13 @@ public class OpenWeatherMapDataProvider implements WeatherDataProvider {
         Request request = new Request.Builder().url(url).build();
         httpClient.newCall(request).enqueue(new Callback() {
             public void onFailure(@Nullable Call call, @Nullable IOException e) {
-                Log.e(TAG, "forecast OkHttp onFailure");
+//                Log.e(TAG, "forecast OkHttp onFailure");
                 forecastReceiver.onTodaysForecastFailed(location);
             }
 
             public void onResponse(@Nullable Call call, @Nullable Response response) {
                 if (response == null || !response.isSuccessful()) {
-                    Log.e(TAG, "forecast OkHttp no response");
+//                    Log.e(TAG, "forecast OkHttp no response");
                     forecastReceiver.onTodaysForecastFailed(location);
                     return;
                 }

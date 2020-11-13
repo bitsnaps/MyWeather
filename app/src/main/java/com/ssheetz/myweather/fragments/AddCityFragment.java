@@ -101,6 +101,7 @@ public class AddCityFragment extends DialogFragment implements OnMapReadyCallbac
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button saveButton = view.findViewById(R.id.save);
+        Button closeButton = view.findViewById(R.id.close);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +110,14 @@ public class AddCityFragment extends DialogFragment implements OnMapReadyCallbac
                 }
             }
         });
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+
+            }
+        });
+
         editName = view.findViewById(R.id.city_name);
         mapView.getMapAsync(this);
         geocoder = new Geocoder(getActivity());
